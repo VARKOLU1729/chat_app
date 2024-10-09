@@ -15,10 +15,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Color color = Color.fromARGB(255, 44, 54, 62);
 
-  List<String> chats = [
-    "Hello",
-    "How are you",
-  ];
 
   String enteredText = "def";
   bool entered = false;
@@ -56,9 +52,29 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     return Scaffold(
+      drawer: Drawer(
+        width: 200,
+        backgroundColor: Colors.black.withOpacity(0.5),
+        child: Column(
+          children: [
+            TextButton(
+                onPressed: (){}, 
+                child: Text("My Profile", style: TextStyle(color: Colors.white),)
+            )
+          ],
+        ),
+      ),
       backgroundColor: color.withOpacity(0.1),
       appBar: AppBar(
         backgroundColor: Colors.orange,
+        leading: Builder(
+          builder: (context)=>IconButton(
+              onPressed:(){
+                print("Hi");
+                Scaffold.of(context).openDrawer();
+              },
+              icon: Icon(Icons.menu, color: Colors.white,)),
+        ),
         actions: [
           IconButton(onPressed: (){
             FirebaseAuth.instance.signOut();
@@ -92,7 +108,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       itemBuilder: (context, index) {
                         return textCard(
                             text: messages[index].data()['message'],
-                          align : (FirebaseAuth.instance.currentUser!.uid == messages[index].data()['userId']) ? true : false
+                          align : (FirebaseAuth.instance.currentUser!.uid == messages[index].data()['userId']) ? true : false,
+                          time: messages[index].data()['createdAt'].toDate().toUtc().toString()
                         );
                       });
                 }
@@ -138,7 +155,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   onPressed: () {
                     _submitMessage(enteredText);
                     setState(() {
-                      chats.add(enteredText);
                       chatTextController.text = '';
                     });
                   },
@@ -154,7 +170,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget textCard({required String text, required bool align}) {
+  Widget textCard({required String text, required bool align, required String time}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       child: Align(
@@ -164,9 +180,17 @@ class _ChatScreenState extends State<ChatScreen> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10), color: Colors.green),
           padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: Text(
-            text,
-            style: TextStyle(color: Colors.white, fontSize: 20),
+          child: RichText(
+            text: TextSpan(
+              text: text,
+              style: TextStyle(color: Colors.white, fontSize: 20),
+              children: [
+                TextSpan(
+                  text: time.substring(10,16),
+                  style: TextStyle(color: Colors.white, fontSize: 10)
+                )
+              ]
+            )
           ),
         ),
       ),
