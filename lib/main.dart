@@ -1,3 +1,4 @@
+import 'package:chat_app/Screens/chat_contacts_screen.dart';
 import 'package:chat_app/Screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,14 +16,15 @@ void main() async{
 
   return runApp(
       MaterialApp(
-        home: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot)
-            {
-              if(snapshot.hasData) return ChatScreen();
-              return LoginScreen();
-            }
-        ),
+        home: ChatContactsScreen(),
+        // home: StreamBuilder(
+        //     stream: FirebaseAuth.instance.authStateChanges(),
+        //     builder: (context, snapshot)
+        //     {
+        //       if(snapshot.hasData) return ChatContactsScreen();
+        //       return LoginScreen();
+        //     }
+        // ),
     )
   );
 }

@@ -1,6 +1,4 @@
-import 'package:chat_app/Screens/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:chat_app/Widgets/login_widgets.dart' as LoginWidgets;
@@ -28,10 +26,22 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     if(authKey.currentState!.validate())
     {
       try {
-
+        print("object1");
         await _firebase.createUserWithEmailAndPassword(email: email!, password: password!);
+        print("object1.1");
         var userData = _firestore.doc(_firebase.currentUser!.uid);
         userData.set({"userName" : userName});
+        print("object2");
+        //set all the remaining users in the ChatUsers Collection as the current users contacts
+        final curUserChatContacts  = userData.collection("userChatContacts");
+        var snapShot = await _firestore.get();
+        print(snapShot.docs.length);
+        for(var doc in snapShot.docs)
+          {
+            if(doc.id != _firebase.currentUser!.uid)
+            curUserChatContacts.doc(doc.id).set({"userName":doc.data()["userName"]});
+          }
+
         Navigator.pop(context);
       }
       on FirebaseAuthException catch (error)

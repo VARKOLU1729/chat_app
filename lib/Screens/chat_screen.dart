@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  final String userId;
+  const ChatScreen({super.key, required this.userId});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -11,6 +12,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
 
+  final curUserId = FirebaseAuth.instance.currentUser!.uid;
   TextEditingController chatTextController = TextEditingController();
 
   Color color = Color.fromARGB(255, 44, 54, 62);
@@ -21,18 +23,19 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _submitMessage(String enteredText) async
   {
-    final curUserId = FirebaseAuth.instance.currentUser!.uid;
-    final curUserName = await FirebaseFirestore.instance
+    final curUsersnapShot = await FirebaseFirestore.instance.collection('ChatUsers').doc(curUserId).get();
+    final curUserName = curUsersnapShot.data()!["userName"];
+    final curUserChatContact = await FirebaseFirestore.instance
         .collection('ChatUsers')
-        .doc(curUserId).get();
-    FirebaseFirestore.instance
+        .doc(curUserId).collection('userChatContacts').doc(widget.userId);
+    curUserChatContact
         .collection('Chats')
         .add(
         {
           'createdAt': Timestamp.now(),
           'message': enteredText,
           'userId': curUserId,
-          'userName':curUserName.data()!['userName']
+          'userName':curUserName
         }
     );
   }
@@ -40,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     chatTextController.addListener(() {
-      if (chatTextController.text.length >= 1) {
+      if (chatTextController.text.isNotEmpty) {
         setState(() {
           entered = true;
         });
@@ -87,10 +90,10 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Expanded(
             child: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('Chats').orderBy('createdAt', descending: true).snapshots(),
+                stream: FirebaseFirestore.instance.collection('ChatUsers').doc(curUserId).collection('userChatContacts').doc(widget.userId).collection("Chats").orderBy('createdAt', descending: true).snapshots(),
                 builder: (context, snapshot)
                 {
-                  if(ConnectionState == ConnectionState.waiting)
+                  if(snapshot.connectionState == ConnectionState.waiting)
                     {
                       return Center(
                         child: SizedBox(
