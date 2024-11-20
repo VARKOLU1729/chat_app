@@ -16,15 +16,14 @@ void main() async{
 
   return runApp(
       MaterialApp(
-        home: ChatContactsScreen(),
-        // home: StreamBuilder(
-        //     stream: FirebaseAuth.instance.authStateChanges(),
-        //     builder: (context, snapshot)
-        //     {
-        //       if(snapshot.hasData) return ChatContactsScreen();
-        //       return LoginScreen();
-        //     }
-        // ),
+        home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot)
+            {
+              if(snapshot.hasData) return ChatContactsScreen();
+              return LoginScreen();
+            }
+        ),
     )
   );
 }

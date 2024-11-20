@@ -31,16 +31,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         print("object1.1");
         var userData = _firestore.doc(_firebase.currentUser!.uid);
         userData.set({"userName" : userName});
-        print("object2");
-        //set all the remaining users in the ChatUsers Collection as the current users contacts
-        final curUserChatContacts  = userData.collection("userChatContacts");
-        var snapShot = await _firestore.get();
-        print(snapShot.docs.length);
-        for(var doc in snapShot.docs)
-          {
-            if(doc.id != _firebase.currentUser!.uid)
-            curUserChatContacts.doc(doc.id).set({"userName":doc.data()["userName"]});
-          }
+        // print("object2");
+        // //set all the remaining users in the ChatUsers Collection as the current users contacts
+        // final curUserChatContacts  = userData.collection("userChatContacts");
+        // var snapShot = await _firestore.get();
+        // print(snapShot.docs.length);
+        // for(var doc in snapShot.docs)
+        //   {
+        //     if(doc.id != _firebase.currentUser!.uid)
+        //     curUserChatContacts.doc(doc.id).set({"userName":doc.data()["userName"]});
+        //   }
 
         Navigator.pop(context);
       }

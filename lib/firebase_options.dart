@@ -41,46 +41,47 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCqj5o5hjEJYvWGuhWhGq7XVxFPd9ZBVHI',
-    appId: '1:610511051514:web:6a38bcc53293b708c70743',
-    messagingSenderId: '610511051514',
-    projectId: 'music-ca52d',
-    authDomain: 'music-ca52d.firebaseapp.com',
-    storageBucket: 'music-ca52d.appspot.com',
+    apiKey: 'AIzaSyCLU_CK_cfPj6T6na4OjdfviiWpJTIM2Jc',
+    appId: '1:177140422860:web:45136f19cab94f5c75ca69',
+    messagingSenderId: '177140422860',
+    projectId: 'chat-2932e',
+    authDomain: 'chat-2932e.firebaseapp.com',
+    storageBucket: 'chat-2932e.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDH3IOblpggTl_9H4Tf9CthzIs5ptF-eug',
-    appId: '1:610511051514:android:210c5d15cf78cb41c70743',
-    messagingSenderId: '610511051514',
-    projectId: 'music-ca52d',
-    storageBucket: 'music-ca52d.appspot.com',
+    apiKey: 'AIzaSyBPYz3QYBPT7DRvevDcBryes2lN9-hQaYs',
+    appId: '1:177140422860:android:fe54accad148783875ca69',
+    messagingSenderId: '177140422860',
+    projectId: 'chat-2932e',
+    storageBucket: 'chat-2932e.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCM2K9qgNn0g5bFL5TEFgaGVhBIdE-Dh80',
-    appId: '1:610511051514:ios:512f749bbee3b230c70743',
-    messagingSenderId: '610511051514',
-    projectId: 'music-ca52d',
-    storageBucket: 'music-ca52d.appspot.com',
-    iosBundleId: 'com.example.runoMusic',
+    apiKey: 'AIzaSyBlZ3ApEn7ocO_Vkz8r5ECumr2LSf1Vv7E',
+    appId: '1:177140422860:ios:f5b72de1d54adc4075ca69',
+    messagingSenderId: '177140422860',
+    projectId: 'chat-2932e',
+    storageBucket: 'chat-2932e.firebasestorage.app',
+    iosBundleId: 'com.example.chatApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCM2K9qgNn0g5bFL5TEFgaGVhBIdE-Dh80',
-    appId: '1:610511051514:ios:512f749bbee3b230c70743',
-    messagingSenderId: '610511051514',
-    projectId: 'music-ca52d',
-    storageBucket: 'music-ca52d.appspot.com',
-    iosBundleId: 'com.example.runoMusic',
+    apiKey: 'AIzaSyBlZ3ApEn7ocO_Vkz8r5ECumr2LSf1Vv7E',
+    appId: '1:177140422860:ios:f5b72de1d54adc4075ca69',
+    messagingSenderId: '177140422860',
+    projectId: 'chat-2932e',
+    storageBucket: 'chat-2932e.firebasestorage.app',
+    iosBundleId: 'com.example.chatApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCqj5o5hjEJYvWGuhWhGq7XVxFPd9ZBVHI',
-    appId: '1:610511051514:web:2a39a95c5ca165ebc70743',
-    messagingSenderId: '610511051514',
-    projectId: 'music-ca52d',
-    authDomain: 'music-ca52d.firebaseapp.com',
-    storageBucket: 'music-ca52d.appspot.com',
+    apiKey: 'AIzaSyCLU_CK_cfPj6T6na4OjdfviiWpJTIM2Jc',
+    appId: '1:177140422860:web:a67a24f2bd1710e475ca69',
+    messagingSenderId: '177140422860',
+    projectId: 'chat-2932e',
+    authDomain: 'chat-2932e.firebaseapp.com',
+    storageBucket: 'chat-2932e.firebasestorage.app',
   );
+
 }

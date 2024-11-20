@@ -25,10 +25,27 @@ class _ChatScreenState extends State<ChatScreen> {
   {
     final curUsersnapShot = await FirebaseFirestore.instance.collection('ChatUsers').doc(curUserId).get();
     final curUserName = curUsersnapShot.data()!["userName"];
-    final curUserChatContact = await FirebaseFirestore.instance
+
+    //add message in senders chat
+    final sender = await FirebaseFirestore.instance
         .collection('ChatUsers')
         .doc(curUserId).collection('userChatContacts').doc(widget.userId);
-    curUserChatContact
+    sender
+        .collection('Chats')
+        .add(
+        {
+          'createdAt': Timestamp.now(),
+          'message': enteredText,
+          'userId': curUserId,
+          'userName':curUserName
+        }
+    );
+
+    //add message in the receivers chat
+    final receiver= await FirebaseFirestore.instance
+        .collection('ChatUsers')
+        .doc(widget.userId).collection('userChatContacts').doc(curUserId);
+    receiver
         .collection('Chats')
         .add(
         {
@@ -74,17 +91,17 @@ class _ChatScreenState extends State<ChatScreen> {
           builder: (context)=>IconButton(
               onPressed:(){
                 print("Hi");
-                Scaffold.of(context).openDrawer();
+                Navigator.pop(context);
               },
-              icon: Icon(Icons.menu, color: Colors.white,)),
+              icon: Icon(Icons.arrow_back, color: Colors.white,)),
         ),
-        actions: [
-          IconButton(onPressed: (){
-            FirebaseAuth.instance.signOut();
-          },
-              icon: Icon(Icons.exit_to_app, color: Colors.white,)
-          )
-        ],
+        // actions: [
+        //   IconButton(onPressed: (){
+        //     FirebaseAuth.instance.signOut();
+        //   },
+        //       icon: Icon(Icons.exit_to_app, color: Colors.white,)
+        //   )
+        // ],
       ),
       body: Column(
         children: [
