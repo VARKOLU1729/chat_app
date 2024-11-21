@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../Widgets/userTile.dart';
 import 'chat_screen.dart';
 
 class ChatContactsScreen extends StatefulWidget {
@@ -53,7 +54,7 @@ class _ChatContactsScreenState extends State<ChatContactsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 31 ,44, 51),
       appBar: AppBar(
         actions: [
           IconButton(onPressed: (){
@@ -63,44 +64,69 @@ class _ChatContactsScreenState extends State<ChatContactsScreen> {
           )
         ],
         leadingWidth: 200,
-        backgroundColor: Colors.black,
-        leading: Text("WhatsApp", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),),
+        backgroundColor: Color.fromARGB(255, 31 ,44, 51),
+        leading: Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text("WhatsApp", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),),
+        ),
       ),
 
-      body: Stack(
-        children: [
-          
-          ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: userChatContacts.length,
-            itemBuilder: (context, index){
-                return InkWell(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatScreen(userId: userChatContacts.keys.elementAt(index))));
-                  },
-                    child: chatContact(context:context, userName: userChatContacts.values.elementAt(index), userId: userChatContacts.keys.elementAt(index))
-                );
-              }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Stack(
+          children: [
+
+            Column(
+              children: [
+
+                searchContactsBar(),
+
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: userChatContacts.length,
+                    itemBuilder: (context, index){
+                        return InkWell(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatScreen(userName: userChatContacts.values.elementAt(index),userId: userChatContacts.keys.elementAt(index))));
+                          },
+                            child: userTile(context:context, userName: userChatContacts.values.elementAt(index), userId: userChatContacts.keys.elementAt(index), color: Color.fromARGB(255, 31 ,44, 51))
+                        );
+                      }
+                    ),
+                ),
+              ],
             ),
 
-          Positioned(
-            bottom: 16.0, // Distance from the bottom edge
-            right: 16.0,  // Distance from the right edge
-            child: FloatingActionButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context){
-                      return AlertDialog(
-                        content: alertDialogContext(),
-                      );
-                    }
-                );
-              },
-              child: Icon(Icons.add),
+            Positioned(
+              bottom: 16.0, // Distance from the bottom edge
+              right: 16.0,  // Distance from the right edge
+              child: FloatingActionButton(
+                backgroundColor: Colors.green,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context){
+                        return AlertDialog(
+                          title: Text("All Contacts", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                          actions: [
+                            FilledButton(
+                                onPressed: (){Navigator.pop(context);},
+                                child: Text("Cancel"),
+                              style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.green)),
+                            )
+                          ],
+                          backgroundColor: Color.fromARGB(255, 31 ,44, 51),
+                          content: alertDialogContext(),
+                        );
+                      }
+                  );
+                },
+                child: Icon(Icons.add, size: 30,color: Colors.black,),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
 
 
@@ -113,7 +139,7 @@ class _ChatContactsScreenState extends State<ChatContactsScreen> {
       return Container(
         width: 200,
          height: 200,
-         color: Colors.black87,
+         color: Color.fromARGB(255, 31 ,44, 51),
          child : StreamBuilder(
               stream: firestore.snapshots(),
               builder: (context, snapshot){
@@ -148,7 +174,7 @@ class _ChatContactsScreenState extends State<ChatContactsScreen> {
                             getUserChatContacts();
                             Navigator.pop(context);
                           },
-                          child: chatContact(context:context, userName: tempUserName, userId: tempUserId)
+                          child: userTile(context:context, userName: tempUserName, userId: tempUserId, color: Color.fromARGB(255, 31 ,44, 51))
                       );
                     }
                 );
@@ -160,15 +186,27 @@ class _ChatContactsScreenState extends State<ChatContactsScreen> {
 }
 
 
-Widget chatContact({required BuildContext context, required String userName, required String userId})
+Widget searchContactsBar()
 {
-  return Card(
-    margin: EdgeInsets.zero,
-    color: Colors.black,
-    child: ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: CircleAvatar(backgroundColor: Colors.blueGrey, child: Icon(Icons.person, size: 30,color: Colors.white,),),
-      title: Text("$userName", style: TextStyle(color: Colors.white),),
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 5),
+    child: SizedBox(
+      height: 50,
+      child: TextField(
+        cursorColor: Colors.white,
+        style: TextStyle(color: Colors.white, fontSize: 20),
+        decoration: InputDecoration(
+          hintText: "Search Contacts",
+            hintStyle: TextStyle(color: Colors.white70),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50)),
+            fillColor: Color.fromARGB(255, 44, 54, 62),
+            filled: true),
+      ),
     ),
   );
 }
+
+
+
+

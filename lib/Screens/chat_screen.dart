@@ -1,10 +1,12 @@
+import 'package:chat_app/Widgets/userTile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
   final String userId;
-  const ChatScreen({super.key, required this.userId});
+  final String userName;
+  const ChatScreen({super.key, required this.userId, required this.userName});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -84,11 +86,15 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
-      backgroundColor: color.withOpacity(0.1),
+      backgroundColor: Color.fromARGB(255, 12, 20, 26),
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        titleSpacing: 0,
+        leadingWidth: 50,
+        backgroundColor: Color.fromARGB(255, 31 ,44, 51),
+        title: userTile(context: context, userName: widget.userName, userId: widget.userId, color:Color.fromARGB(255, 31 ,44, 51)),
         leading: Builder(
           builder: (context)=>IconButton(
+            padding: EdgeInsets.zero,
               onPressed:(){
                 print("Hi");
                 Navigator.pop(context);
@@ -142,7 +148,7 @@ class _ChatScreenState extends State<ChatScreen> {
             //     }),
           ),
           SizedBox(
-            height: 5,
+            height: 7,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -155,9 +161,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   controller: chatTextController,
                   style: TextStyle(color: Colors.white, fontSize: 20),
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 20),
+                    hintStyle: TextStyle(color: Colors.white38),
+                      hintText: "Message",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50)),
-                      fillColor: color,
+                      fillColor: Color.fromARGB(255, 31, 39, 42),
                       filled: true),
                   onChanged: (val) {
                     enteredText = val;
@@ -198,16 +207,16 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Container(
           // color: Colors.green,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Colors.green),
+              borderRadius: BorderRadius.circular(10), color: Color.fromARGB(255, 1, 92, 75)),
           padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: RichText(
             text: TextSpan(
               text: text,
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 22),
               children: [
                 TextSpan(
-                  text: time.substring(10,16),
-                  style: TextStyle(color: Colors.white, fontSize: 10)
+                  text: "   ${time.substring(10,16)}",
+                  style: TextStyle(color: Color.fromARGB(255, 185, 232, 208), fontSize: 12)
                 )
               ]
             )
