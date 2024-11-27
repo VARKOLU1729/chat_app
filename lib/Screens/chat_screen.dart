@@ -21,7 +21,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
   String enteredText = "def";
-  bool entered = false;
+  bool entered = true;
 
   void _submitMessage(String enteredText) async
   {
@@ -62,15 +62,17 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     chatTextController.addListener(() {
-      if (chatTextController.text.isNotEmpty) {
-        setState(() {
-          entered = true;
-        });
-      } else {
+      if (chatTextController.text.isEmpty) {
         setState(() {
           entered = false;
         });
       }
+      else if(chatTextController.text.length==1)
+        {
+          setState(() {
+            entered = true;
+          });
+        }
     });
 
     return Scaffold(
